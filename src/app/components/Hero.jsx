@@ -73,7 +73,8 @@ export default function Hero() {
               alt="Rukmanghan"
               loading="lazy"
               decoding="async"
-              className="w-[260px] sm:w-[300px] md:w-[340px] lg:w-[380px] xl:w-[460px] aspect-[3/5] rounded-3xl object-cover shadow-2xl hover:shadow-slate-400/50 transition-all duration-500"
+              className="rounded-3xl w-[250px] h-[420px] md:w-[290px] md:h-[500px] lg:h-[570px] lg:w-[350px] hover:shadow-slate-400 hover:shadow-xl transition-all delay-150"
+
             />
           </motion.div>
         </div>
