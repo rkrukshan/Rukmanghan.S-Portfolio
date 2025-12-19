@@ -1,15 +1,14 @@
 import React from "react";
 
-// ✅ Updated path to point to the public folder for Next.js
 const websocketLogo = "/assets/images/icons/websocket-logo.png";
 
 const COLORS = {
-    connected: "bg-green-500/20",
+    connected: "bg-transparent",
     connecting: "bg-yellow-500/20",
 };
 
 export default function WebsocketIcon({
-    status = "connected", // Added default to prevent undefined errors
+    status = "connected", 
     size = 40,
     className = "",
     animated = true,

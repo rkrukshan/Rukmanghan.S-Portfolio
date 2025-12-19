@@ -1,9 +1,7 @@
 "use client";
 import React, { Suspense, useEffect, useState, lazy } from "react";
-import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 
-// Native React lazy loading (Netlify safe)
 const Technologies = lazy(() => import("./components/Technologies"));
 const Projects = lazy(() => import("./components/Projects"));
 const Experience = lazy(() => import("./components/Experience"));

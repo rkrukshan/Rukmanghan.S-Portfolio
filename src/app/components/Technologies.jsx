@@ -52,7 +52,11 @@ export default function Technologies() {
 
   // Set isMounted to true on component mount
   useEffect(() => {
-    setIsMounted(true);
+    const timer = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   // ✅ Preload all icons in background after first paint
@@ -102,9 +106,8 @@ export default function Technologies() {
       <motion.h2
         whileInView={{ opacity: 1, y: 0 }}
         initial={{ opacity: 0, y: -100 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.5 }}
-        className="text-4xl text-center text-white my-20"
+        transition={{ duration: 1.2 }}
+        className="text-3xl sm:text-4xl text-white text-center my-12 sm:my-30"
       >
         Technologies
       </motion.h2>

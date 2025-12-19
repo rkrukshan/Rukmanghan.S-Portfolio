@@ -28,9 +28,8 @@ export default function Experience() {
             <motion.h2
                 whileInView={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -100 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.5 }}
-                className="text-3xl sm:text-4xl text-white text-center my-12 sm:my-20"
+                transition={{ duration: 1.2 }}
+                className="text-3xl sm:text-4xl text-white text-center my-12 sm:my-30"
             >
                 Experiences
             </motion.h2>

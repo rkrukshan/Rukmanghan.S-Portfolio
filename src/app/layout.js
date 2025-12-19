@@ -1,19 +1,17 @@
 // app/layout.js
 import Navbar from "./components/Navbar";
 import "./globals.css";
-// ✅ Updated path to ensure it points to your components directory
 
 export const metadata = {
-  title: "My Portfolio",
-  description: "Built with Next.js",
+  title: "Rukmanghan.S",
+  description:
+    "Professional software engineer portfolio featuring full-stack web development with React, Node.js, Java Spring Boot, and cloud-native solutions. Specializing in responsive UI/UX, REST APIs, database design, and DevOps automation with Docker and CI/CD pipelines.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="antialiased">
-        {" "}
-        {/* Added standard Next.js body classing if needed */}
         <Navbar />
         <main>{children}</main>
       </body>

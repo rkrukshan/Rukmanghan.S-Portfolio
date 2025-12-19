@@ -1,0 +1,395 @@
+/* Contact.module.css */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Contact Grid - Desktop: 3 cards in a row */
+.contactGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+/* Contact Item */
+.contactItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba(30, 41, 59, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  align-items: center;
+}
+
+.contactItem:hover {
+  background: rgba(30, 41, 59, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.iconContainer {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.iconMain {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.value {
+  font-size: 1rem;
+  color: #f8fafc;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.actionBtn.primary {
+  color: #94a3b8;
+}
+
+.actionBtn.secondary {
+  color: #94a3b8;
+}
+
+.actionBtn.primary:hover {
+  color: var(--item-color, #60a5fa);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.actionBtn.secondary:hover {
+  color: var(--item-color, #60a5fa);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.iconAction,
+.iconCopy {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.iconCheck {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Footer */
+.footer {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+}
+
+.copyright {
+  font-size: 0.875rem;
+  color: #64748b;
+  opacity: 0.7;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #059669;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  z-index: 50;
+}
+
+.toastIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Responsive Styles */
+
+/* Tablet: 2 cards per row */
+@media (max-width: 1024px) {
+  .contactGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  
+  .contactGrid .contactItem:nth-child(3) {
+    grid-column: span 2;
+    max-width: 50%;
+    margin: 0 auto;
+  }
+}
+
+/* Mobile: Clean layout with action buttons */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .contactGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  /* --- FIX START: Reset the 3rd card style from tablet view --- */
+  .contactGrid .contactItem:nth-child(3) {
+    grid-column: auto;
+    max-width: 100%;
+    margin: 0;
+  }
+  /* --- FIX END --- */
+  
+  .contactItem {
+    /* Ensure all cards have same height and don't shrink */
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 70px; /* Fixed minimum height for all cards */
+    padding: 1rem;
+    background: rgba(30, 41, 59, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  
+  /* Keep icon fixed size */
+  .iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .iconMain {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  /* Content area takes available space */
+  .content {
+    flex: 1;
+    min-width: 0;
+    margin: 0 0.75rem;
+    overflow: hidden;
+  }
+  
+  .label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .value {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #f1f5f9;
+    font-weight: 400;
+    word-break: break-all; /* Ensure long emails break properly */
+    /* Allow wrapping for email but keep consistent height */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines max */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Actions fixed size */
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-shrink: 0;
+    width: 84px; /* Fixed width for actions */
+  }
+  
+  /* Fixed size buttons */
+  .actionBtn {
+    padding: 0.4rem;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+  
+  .iconAction,
+  .iconCopy,
+  .iconCheck {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  /* Simple hover effect for mobile */
+  .contactItem:hover {
+    background: rgba(30, 41, 59, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Footer adjustments for mobile */
+  .footer {
+    padding-top: 1.5rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .contactGrid {
+    gap: 0.875rem;
+  }
+  
+  .contactItem {
+    padding: 0.875rem;
+    min-height: 64px; /* Slightly smaller for small screens */
+  }
+  
+  .iconContainer {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .label {
+    font-size: 0.7rem;
+    margin-bottom: 0.125rem;
+  }
+  
+  .value {
+    font-size: 0.85rem;
+  }
+  
+  .iconMain {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+  
+  .actions {
+    width: 76px; /* Slightly smaller for small screens */
+    gap: 0.4rem;
+  }
+  
+  .actionBtn {
+    padding: 0.35rem;
+    width: 32px;
+    height: 32px;
+  }
+  
+  .iconAction,
+  .iconCopy,
+  .iconCheck {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+  
+  .toast {
+    bottom: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+  .contactItem {
+    min-height: 60px;
+    padding: 0.75rem;
+  }
+  
+  .content {
+    margin: 0 0.5rem;
+  }
+  
+  .value {
+    font-size: 0.8rem;
+  }
+  
+  .actions {
+    width: 68px;
+  }
+  
+  .actionBtn {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .contactItem,
+  .actionBtn {
+    transition: none;
+  }
+}

@@ -35,9 +35,8 @@ export default function Projects() {
       <motion.h2
         whileInView={{ opacity: 1, y: 0 }}
         initial={{ opacity: 0, y: -100 }}
-        transition={{ duration: 1.5 }}
-        viewport={{ once: true }}
-        className="text-3xl sm:text-4xl text-white text-center my-12 sm:my-20"
+        transition={{ duration: 1.2 }}
+        className="text-3xl sm:text-4xl text-white text-center my-12 sm:my-30"
       >
         Projects
       </motion.h2>
@@ -55,7 +54,7 @@ export default function Projects() {
             >
               {/* Image block */}
               <motion.div
-                className="flex flex-col flex-wrap justify-center items-center w-full lg:w-1/3"
+                className="flex flex-col flex-wrap justify-center items-center w-full lg:w-1/3 lg:mr-2"
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, amount: 0.5 }}

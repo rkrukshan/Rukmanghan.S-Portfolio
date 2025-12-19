@@ -2,7 +2,6 @@
 import React, { useState, useCallback, memo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle, AlertCircle, Loader2, XCircle, Check, X } from "lucide-react";
-
 const textVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: {
@@ -144,23 +143,6 @@ const Form = () => {
       message: messageError
     };
 
-    setErrors(newErrors);
-
-    // If there are errors, don't submit
-    if (nameError || emailError || messageError) {
-      // Find first error field and scroll to it
-      const firstError = Object.keys(newErrors).find(key => newErrors[key]);
-      if (firstError) {
-        const element = document.querySelector(`[name="${firstError}"]`);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          element.focus();
-        }
-      }
-      return;
-    }
-
-    // If valid, proceed with submission
     setIsSubmitting(true);
     setResult({ message: "Sending your message...", type: "sending" });
 
@@ -168,10 +150,14 @@ const Form = () => {
     formDataToSend.append("name", formData.name);
     formDataToSend.append("email", formData.email);
     formDataToSend.append("message", formData.message);
-    // ✅ Updated to Next.js environment variables
-    formDataToSend.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY);
-    formDataToSend.append("subject", process.env.NEXT_PUBLIC_WEB3FORMS_SUBJECT);
-
+    formDataToSend.append(
+      "access_key",
+      process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
+    );
+    formDataToSend.append(
+      "subject",
+      process.env.NEXT_PUBLIC_WEB3FORMS_SUBJECT
+    );
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
@@ -357,7 +343,7 @@ const Form = () => {
                   </span>
                 )}
               </label>
-              <div className={`text-xs ${messageLength > 1000 ? 'text-rose-400' : 'text-stone-400'}`}>
+              <div className={`text-xs ${messageLength > 10000 ? 'text-rose-400' : 'text-stone-400'}`}>
                 {messageLength}/1000
               </div>
             </div>

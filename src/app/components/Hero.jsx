@@ -1,20 +1,26 @@
 "use client";
-import React, { useEffect } from "react";
-const profilePic = "/assets/images/Rukmanghan.png";
+import React, { useEffect, useRef } from "react";
 import { HERO_CONTENT } from "../constants/index.js";
-
 import { motion } from "framer-motion";
+import gsap from "gsap";
+import { TextPlugin } from "gsap/TextPlugin";
+
+// Register the plugin
+gsap.registerPlugin(TextPlugin);
+
+const profilePic = "/assets/images/Rukmanghan.png";
 
 const imageVariants = {
-  hidden: { opacity: 0, x: 100 },
+  hidden: { opacity: 0, x: 50 },
   visible: {
     opacity: 1,
+    x: 0,
     transition: { duration: 1, ease: "easeInOut", delay: 0.1 },
   },
 };
 
 const textVariants = {
-  hidden: { opacity: 0, x: -100 },
+  hidden: { opacity: 0, x: -50 },
   visible: {
     opacity: 1,
     x: 0,
@@ -23,36 +29,53 @@ const textVariants = {
 };
 
 export default function Hero() {
-  // ✅ Preload profile image in idle time (non-blocking)
+  const nameRef = useRef(null);
+
   useEffect(() => {
+    // Image preloading logic
     if ("requestIdleCallback" in window) {
       requestIdleCallback(() => {
         const img = new Image();
         img.src = profilePic;
       });
     }
+
+    // GSAP Typewriter Animation
+    if (nameRef.current) {
+      gsap.to(nameRef.current, {
+        duration: 1.5,       // Speed of the typing
+        text: "Rukmanghan.S",
+        delay: 0.5,          // Initial delay when page loads
+        ease: "sine.inOut",
+        repeat: -1,          // Loop infinitely
+        repeatDelay: 1,      // The 1-second gap you requested
+        yoyo: true,          // Makes it "erase" itself back to empty
+        holdMs: 5000,        // Optional: extra hold time for TextPlugin
+      });
+    }
   }, []);
 
   return (
-    <div className="pb-4 mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-wrap lg:flex-row-reverse">
+    <div className="min-h-screen flex items-center justify-center py-10 lg:py-0 px-6 sm:px-12 lg:px-20 xl:px-44">
+      <div className="flex flex-col lg:flex-row-reverse items-center justify-between w-full max-w-9xl mx-auto">
 
-        {/* Profile Image */}
-        <div className="w-full lg:w-1/2">
-          <div className="flex sm:justify-center mr-28 lg:p-8">
-            <motion.img
-              variants={imageVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
+        {/* Profile Image Container */}
+        <div className="w-full lg:w-1/2 flex justify-center lg:justify-end mb-12 lg:mb-0">
+          <motion.div
+            variants={imageVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            className="relative"
+          >
+            <img
               src={profilePic}
               alt="Rukmanghan"
               loading="lazy"
               decoding="async"
-              fetchPriority="low"
-              className="rounded-3xl w-[250px] h-[420px] md:w-[250px] md:h-[450px] lg:h-[550px] lg:w-[350px] hover:shadow-slate-400 hover:shadow-xl transition-all delay-150"
+              className="w-[260px] sm:w-[300px] md:w-[340px] lg:w-[380px] xl:w-[460px] aspect-[3/5] rounded-3xl object-cover shadow-2xl hover:shadow-slate-400/50 transition-all duration-500"
             />
-          </div>
+          </motion.div>
         </div>
 
         {/* Text Content */}
@@ -61,61 +84,28 @@ export default function Hero() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
-          className="w-full lg:w-1/2"
+          className="w-full lg:w-1/2 flex flex-col items-center lg:items-start"
         >
-          <div className="flex flex-col items-center md:justify-center lg:items-start mt-10">
+          {/* GSAP Target Element */}
+          <motion.h2
+            ref={nameRef}
+            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl pb-4 tracking-tighter text-center lg:text-left min-h-[1.2em]"
+          >
+            {/* The text is empty here so GSAP can type into it */}
+          </motion.h2>
 
-            {/* Name */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8 }}
-              className="text-4xl pb-2 md:text-5xl lg:text-7xl tracking-tighter"
-            >
-              Rukmanghan.S
-            </motion.h2>
+          <motion.span
+            className="text-2xl md:text-4xl lg:text-5xl bg-gradient-to-r from-stone-300 to-stone-600 bg-clip-text tracking-tight text-transparent text-center lg:text-left font-medium"
+          >
+            Software Engineer
+          </motion.span>
 
-            {/* Title */}
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8, delay: 0.05 }}
-              className="text-3xl bg-gradient-to-r from-stone-300 to-stone-600 bg-clip-text md:text-5xl tracking-tight text-transparent"
-            >
-              Software Engineer
-            </motion.span>
-
-            {/* Hero Content */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-sm my-2 max-w-lg py-6 md:text-2xl text-justify leading-relaxed tracking-tighter"
-            >
-              {HERO_CONTENT}
-            </motion.p>
-
-            {/* Download Resume (optional) */}
-            {/*
-            <motion.a
-              whileInView={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 100 }}
-              transition={{ duration: 1.5 }}
-              href="/assets/PDF/S.Rukmanghan_Resume.pdf" 
-              download="S.Rukmanghan_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white rounded-full p-4 text-sm text-stone-800 mb-10"
-            >
-              Download Resume
-            </motion.a>
-            */}
-          </div>
+          <motion.p
+            className="text-base md:text-xl lg:text-2xl my-6 max-w-xl text-center lg:text-left leading-relaxed text-stone-400"
+          >
+            {HERO_CONTENT}
+          </motion.p>
         </motion.div>
-
       </div>
     </div>
   );
