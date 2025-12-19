@@ -101,7 +101,7 @@ export default function Hero() {
           </motion.span>
 
           <motion.p
-            className="text-base md:text-xl lg:text-2xl my-6 max-w-xl text-center lg:text-left leading-relaxed text-stone-400"
+            className="text-sm my-2 max-w-lg py-6 md:text-2xl text-justify leading-relaxed tracking-tighter text:stone-400"
           >
             {HERO_CONTENT}
           </motion.p>
