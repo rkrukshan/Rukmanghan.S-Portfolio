@@ -17,16 +17,15 @@ const textVariants = {
 };
 
 export default function Projects() {
-  // Preload all project images in idle time
+  // Preload all project images - works in ALL browsers including Safari
   useEffect(() => {
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(() => {
-        PROJECTS.forEach((project) => {
-          const img = new Image();
-          img.src = project.image;
-        });
+    // Simple setTimeout approach that works everywhere
+    setTimeout(() => {
+      PROJECTS.forEach((project) => {
+        const img = new Image();
+        img.src = project.image;
       });
-    }
+    }, 0);
   }, []);
 
   return (

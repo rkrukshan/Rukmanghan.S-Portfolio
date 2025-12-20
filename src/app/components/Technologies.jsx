@@ -61,14 +61,26 @@ export default function Technologies() {
 
   // ✅ Preload all icons in background after first paint
   useEffect(() => {
-    requestIdleCallback(() => {
-      [
+    const preloadIcons = () => {
+      const iconList = [
         RiReactjsLine, RiTailwindCssFill, SiReactrouter, RiNextjsLine, SiRedux,
         SiAxios, SiMui, SiFramer, BsBootstrap, DiJava, SiSpringboot, DiMysql,
         DiPhp, GrGithub, DiBitbucket, SiPostman, DiDocker, SiInsomnia, SiNgrok,
         DiJenkins, SiCheckmk, SiMatomo, SiJira, RiWebhookFill, FcLinux
-      ].forEach(icon => icon.preload());
-    });
+      ];
+
+      iconList.forEach(icon => {
+        try {
+          // Optional chaining in case preload method doesn't exist
+          icon?.preload?.();
+        } catch (error) {
+          console.warn('Failed to preload icon:', error);
+        }
+      });
+    };
+
+    // Simple cross-browser approach
+    setTimeout(preloadIcons, 0);
   }, []);
 
   const icons = [

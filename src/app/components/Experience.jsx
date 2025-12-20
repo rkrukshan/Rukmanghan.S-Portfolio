@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { EXPERIENCES } from "../constants/index.js";
 import { motion } from "framer-motion";
 
@@ -13,18 +13,8 @@ const textVariants = {
 };
 
 export default function Experience() {
-
-    useEffect(() => {
-        if ("requestIdleCallback" in window) {
-            requestIdleCallback(() => {
-                EXPERIENCES.forEach(() => { });
-            });
-        }
-    }, []);
-
     return (
         <div className="pb-24 px-4 sm:px-6 lg:px-8">
-
             <motion.h2
                 whileInView={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -100 }}
@@ -87,7 +77,6 @@ export default function Experience() {
                                         whileInView={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 0.4, delay: i * 0.05 }}
                                     >
-                                        {/* ✅ Ensures icons are rendered correctly using React.createElement */}
                                         {exp.techlogo[i] && React.createElement(exp.techlogo[i])}
                                         {tech}
                                     </motion.span>

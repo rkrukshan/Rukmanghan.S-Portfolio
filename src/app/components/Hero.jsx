@@ -32,27 +32,28 @@ export default function Hero() {
   const nameRef = useRef(null);
 
   useEffect(() => {
-    // Image preloading logic
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(() => {
-        const img = new Image();
-        img.src = profilePic;
-      });
-    }
+    // Simple image preloading that works in ALL browsers including Safari
+    // setTimeout with 0ms pushes it to next event loop without blocking
+    setTimeout(() => {
+      const img = new Image();
+      img.src = profilePic;
+    }, 0);
 
     // GSAP Typewriter Animation
-    if (nameRef.current) {
-      gsap.to(nameRef.current, {
-        duration: 1.5,       // Speed of the typing
-        text: "Rukmanghan.S",
-        delay: 0.5,          // Initial delay when page loads
-        ease: "sine.inOut",
-        repeat: -1,          // Loop infinitely
-        repeatDelay: 1,      // The 1-second gap you requested
-        yoyo: true,          // Makes it "erase" itself back to empty
-        holdMs: 5000,        // Optional: extra hold time for TextPlugin
-      });
-    }
+    const typewriterAnimation = nameRef.current ? gsap.to(nameRef.current, {
+      duration: 1.5,
+      text: "Rukmanghan.S",
+      delay: 0.5,
+      ease: "sine.inOut",
+      repeat: -1,
+      repeatDelay: 1,
+      yoyo: true,
+    }) : null;
+
+    // Cleanup function
+    return () => {
+      typewriterAnimation?.kill();
+    };
   }, []);
 
   return (
@@ -74,7 +75,6 @@ export default function Hero() {
               loading="lazy"
               decoding="async"
               className="rounded-3xl w-[250px] h-[420px] md:w-[290px] md:h-[500px] lg:h-[700px] lg:w-[450px] hover:shadow-slate-400 hover:shadow-xl transition-all delay-150"
-
             />
           </motion.div>
         </div>
