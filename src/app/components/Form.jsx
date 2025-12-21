@@ -276,9 +276,9 @@ const Form = () => {
                   animate={{ opacity: 1, y: 0, height: "auto" }}
                   exit={{ opacity: 0, y: -10, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="mt-2 flex items-center gap-2 bg-gradient-to-r from-rose-900/30 to-rose-800/20 border border-rose-700/50 rounded-lg p-3 shadow-lg"
+                  className="mt-2 flex items-center gap-2 bg-linear-to-r from-rose-900/30 to-rose-800/20 border border-rose-700/50 rounded-lg p-3 shadow-lg"
                 >
-                  <XCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+                  <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
                   <span className="text-rose-200 text-sm">{errors.name}</span>
                 </motion.div>
               )}
@@ -318,9 +318,9 @@ const Form = () => {
                   animate={{ opacity: 1, y: 0, height: "auto" }}
                   exit={{ opacity: 0, y: -10, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="mt-2 flex items-center gap-2 bg-gradient-to-r from-rose-900/30 to-rose-800/20 border border-rose-700/50 rounded-lg p-3 shadow-lg"
+                  className="mt-2 flex items-center gap-2 bg-linear-to-r from-rose-900/30 to-rose-800/20 border border-rose-700/50 rounded-lg p-3 shadow-lg"
                 >
-                  <XCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+                  <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
                   <span className="text-rose-200 text-sm">{errors.email}</span>
                 </motion.div>
               )}
@@ -365,9 +365,9 @@ const Form = () => {
                   animate={{ opacity: 1, y: 0, height: "auto" }}
                   exit={{ opacity: 0, y: -10, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="mt-2 flex items-center gap-2 bg-gradient-to-r from-rose-900/30 to-rose-800/20 border border-rose-700/50 rounded-lg p-3 shadow-lg"
+                  className="mt-2 flex items-center gap-2 bg-linear-to-r from-rose-900/30 to-rose-800/20 border border-rose-700/50 rounded-lg p-3 shadow-lg"
                 >
-                  <XCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+                  <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
                   <span className="text-rose-200 text-sm">{errors.message}</span>
                 </motion.div>
               )}
@@ -378,7 +378,7 @@ const Form = () => {
             <button
               type="submit"
               disabled={isSubmitting || !isFormValid()}
-              className={`group relative rounded-lg bg-gradient-to-r ${isFormValid() ? 'from-blue-950 to-cyan-950 hover:from-blue-900 hover:to-cyan-900' : 'from-stone-800 to-stone-900 cursor-not-allowed'} px-8 py-3 text-white font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 hover:cursor-pointer`}
+              className={`group relative rounded-lg bg-linear-to-r ${isFormValid() ? 'from-blue-950 to-cyan-950 hover:from-blue-900 hover:to-cyan-900' : 'from-stone-800 to-stone-900 cursor-not-allowed'} px-8 py-3 text-white font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100 hover:cursor-pointer`}
             >
               <span className="flex items-center justify-center gap-2">
                 {isSubmitting ? (
@@ -391,7 +391,7 @@ const Form = () => {
                 )}
               </span>
               {isFormValid() && (
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-400/0 via-white/0 to-cyan-400/0 group-hover:from-blue-400/10 group-hover:via-white/10 group-hover:to-cyan-400/10 transition-all duration-500" />
+                <div className="absolute inset-0 rounded-lg bg-linear-to-r from-blue-400/0 via-white/0 to-cyan-400/0 group-hover:from-blue-400/10 group-hover:via-white/10 group-hover:to-cyan-400/10 transition-all duration-500" />
               )}
             </button>
           </div>
@@ -422,7 +422,7 @@ const Form = () => {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.2, duration: 2, ease: "easeInOut" }}
-                  className="mt-3 h-0.5 bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-400 rounded-full"
+                  className="mt-3 h-0.5 bg-linear-to-r from-emerald-400 via-green-400 to-emerald-400 rounded-full"
                 />
               )}
             </motion.div>

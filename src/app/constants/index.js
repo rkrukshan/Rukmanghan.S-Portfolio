@@ -287,3 +287,22 @@ export const CONTACT = {
   email: "rukshan1122@gmail.com",
   copywrite: " rukmanghan.vercel.app. All rights reserved.",
 };
+
+export const UserName = "Rukmanghan.S";
+
+export const mediaLinks = [
+  {
+    id: "linkedin",
+    url: "https://www.linkedin.com/in/rukmanghan-selvakumar/",
+  },
+  {
+    id: "github",
+    url: "https://github.com/rkrukshan",
+  },
+  {
+    id: "medium",
+    url: "https://medium.com/@rukshan1122",
+  },
+  { id: "whatsapp", 
+    url: "https://wa.me/+94769861092?text=Hello" },
+];

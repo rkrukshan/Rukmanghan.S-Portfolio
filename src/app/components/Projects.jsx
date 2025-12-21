@@ -1,10 +1,10 @@
 "use client";
 import React, { Suspense, useEffect } from "react";
-// ✅ Path updated to use @ alias for Next.js structure
-import { EXPERIENCES, PROJECTS } from "../constants/index.js";
+import {  PROJECTS } from "../constants/index.js";
 import { motion } from "framer-motion";
-import { FaGithub } from "react-icons/fa";      // GitHub logo
-import { FiExternalLink } from "react-icons/fi"; // Live Demo logo
+import { FaGithub } from "react-icons/fa";      
+import { FiExternalLink } from "react-icons/fi";
+import Image from "next/image.js";
 
 // Text animation variants
 const textVariants = {
@@ -21,10 +21,13 @@ export default function Projects() {
   useEffect(() => {
     // Simple setTimeout approach that works everywhere
     setTimeout(() => {
-      PROJECTS.forEach((project) => {
-        const img = new Image();
-        img.src = project.image;
-      });
+      // Fixed: Use window.Image for native HTML Image constructor
+      if (typeof window !== 'undefined') {
+        PROJECTS.forEach((project) => {
+          const img = new window.Image();
+          img.src = project.image;
+        });
+      }
     }, 0);
   }, []);
 
@@ -59,13 +62,14 @@ export default function Projects() {
                 viewport={{ once: true, amount: 0.5 }}
                 transition={{ duration: 0.5 }}
               >
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
+                  width={550} // Use largest width from your responsive classes
+                  height={450} // Use largest height from your responsive classes
+                  className="sm:w-112.5 sm:h-87.5 md:h-112.5 md:w-137.5 lg:h-37.5 object-cover mb-6 rounded"
+                  quality={85}
                   loading="lazy"
-                  decoding="async"
-                  fetchPriority="low"
-                  className="sm:w-[450px] sm:h-[350px] md:h-[450px] md:w-[550px] lg:h-[150px] object-fill mb-6 rounded"
                 />
               </motion.div>
 

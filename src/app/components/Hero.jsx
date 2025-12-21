@@ -1,14 +1,15 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import { HERO_CONTENT } from "../constants/index.js";
+import { HERO_CONTENT, UserName } from "../constants/index.js";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
+import Image from "next/image.js";
 
 // Register the plugin
 gsap.registerPlugin(TextPlugin);
 
-const profilePic = "/assets/images/Rukmanghan.png";
+const profilePic = "/assets/images/mypic.png";
 
 const imageVariants = {
   hidden: { opacity: 0, x: 50 },
@@ -32,17 +33,17 @@ export default function Hero() {
   const nameRef = useRef(null);
 
   useEffect(() => {
-    // Simple image preloading that works in ALL browsers including Safari
-    // setTimeout with 0ms pushes it to next event loop without blocking
     setTimeout(() => {
-      const img = new Image();
-      img.src = profilePic;
+      if (typeof window !== 'undefined') {
+        const img = new window.Image();
+        img.src = profilePic;
+      }
     }, 0);
 
     // GSAP Typewriter Animation
     const typewriterAnimation = nameRef.current ? gsap.to(nameRef.current, {
       duration: 1.5,
-      text: "Rukmanghan.S",
+      text: { value: UserName },
       delay: 0.5,
       ease: "sine.inOut",
       repeat: -1,
@@ -57,7 +58,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-10 lg:py-0 px-6 sm:px-12 lg:px-20 xl:px-44">
+    <div className="min-h-screen flex items-center justify-center py-10 lg:py-5 px-6 sm:px-12 lg:px-20 xl:px-44">
       <div className="flex flex-col lg:flex-row-reverse items-center justify-between w-full max-w-9xl mx-auto">
 
         {/* Profile Image Container */}
@@ -69,12 +70,13 @@ export default function Hero() {
             viewport={{ once: true, amount: 0.5 }}
             className="relative"
           >
-            <img
+            <Image
               src={profilePic}
-              alt="Rukmanghan"
+              alt={UserName}
+              width={450}
+              height={700}
+              className="rounded-3xl w-62.5 h-105 md:w-72.5 md:h-125 lg:h-162.5 lg:w-105 hover:shadow-slate-400 hover:shadow-xl transition-all delay-150"
               loading="lazy"
-              decoding="async"
-              className="rounded-3xl w-[250px] h-[420px] md:w-[290px] md:h-[500px] lg:h-[700px] lg:w-[450px] hover:shadow-slate-400 hover:shadow-xl transition-all delay-150"
             />
           </motion.div>
         </div>
@@ -87,25 +89,38 @@ export default function Hero() {
           viewport={{ once: true, amount: 0.5 }}
           className="w-full lg:w-1/2 flex flex-col items-center lg:items-start"
         >
-          {/* GSAP Target Element */}
           <motion.h2
             ref={nameRef}
             className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl pb-4 tracking-tighter text-center lg:text-left min-h-[1.2em]"
           >
-            {/* The text is empty here so GSAP can type into it */}
           </motion.h2>
 
           <motion.span
-            className="text-2xl md:text-4xl lg:text-5xl bg-gradient-to-r from-stone-300 to-stone-600 bg-clip-text tracking-tight text-transparent text-center lg:text-left font-medium"
+            className="text-2xl md:text-4xl lg:text-5xl bg-linear-to-r from-stone-300 to-stone-600 bg-clip-text tracking-tight text-transparent text-center lg:text-left font-medium"
           >
             Software Engineer
           </motion.span>
 
           <motion.p
-            className="text-sm my-2 max-w-lg py-6 md:text-2xl text-justify leading-relaxed tracking-tighter text:stone-400"
+            className="text-sm my-2 max-w-lg py-6 md:text-2xl text-justify leading-relaxed tracking-tighter text-stone-400"
           >
             {HERO_CONTENT}
           </motion.p>
+
+          {/* Download Resume Button - Fixed and Working */}
+          {/* <motion.a
+            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 100 }}
+            transition={{ duration: 1.5 }}
+            href="/assets/PDF/Resume.pdf"  
+            download="S.Rukmanghan_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white rounded-full px-8 py-4 text-sm text-stone-800 font-medium hover:bg-stone-100 transition-all duration-300 shadow-lg hover:shadow-xl mt-6 w-fit"
+          >
+            Download Resume
+          </motion.a> */}
+
         </motion.div>
       </div>
     </div>
