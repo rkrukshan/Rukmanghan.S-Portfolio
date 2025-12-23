@@ -24,11 +24,13 @@ export default function App() {
 
   useEffect(() => {
     // Safe preload for lazy components
-    import("./components/Technologies");
-    import("./components/Projects");
-    import("./components/Experience");
-    import("./components/Form");
-    import("./components/Contact");
+    Promise.all([
+      import("./components/Technologies"),
+      import("./components/Projects"),
+      import("./components/Experience"),
+      import("./components/Form"),
+      import("./components/Contact"),
+    ]);
 
     window.addEventListener("scroll", toggleVisibility);
     return () => window.removeEventListener("scroll", toggleVisibility);
@@ -88,17 +90,17 @@ export default function App() {
           aria-label="Scroll to top"
         >
           {/* Outer rotating ring - Responsive blur */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-500 via-gray-950 to-slate-500 p-[2px] opacity-80 blur-[2px] sm:blur-sm animate-slow-spin">
-            <div className="h-full w-full rounded-full bg-gradient-to-br from-gray-950 via-gray-700 to-black"></div>
+          <div className="absolute inset-0 rounded-full bg-linear-to-r from-gray-500 via-gray-950 to-slate-500 p-0.5 opacity-80 blur-[2px] sm:blur-sm animate-slow-spin">
+            <div className="h-full w-full rounded-full bg-linear-to-br from-gray-950 via-gray-700 to-black"></div>
           </div>
 
           {/* Middle pulsing ring - Responsive blur */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-900/30 via-gray-900/0 to-gray-900/0 blur-[1px] sm:blur-[2px] animate-slow-pulse"></div>
+          <div className="absolute inset-0 rounded-full bg-linear-to-r from-gray-900/30 via-gray-900/0 to-gray-900/0 blur-[1px] sm:blur-[2px] animate-slow-pulse"></div>
 
           {/* Core button - Responsive sizing */}
-          <div className="relative flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-gray-800 via-gray-900 to-black shadow-2xl transition-all duration-700 group-hover:rotate-180 active:rotate-180 animate-subtle-glow">
+          <div className="relative flex h-full w-full items-center justify-center rounded-full bg-linear-to-br from-gray-800 via-gray-900 to-black shadow-2xl transition-all duration-700 group-hover:rotate-180 active:rotate-180 animate-subtle-glow">
             {/* Inner accent glow - Responsive blur */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-700/90 via-gray-600/60 to-gray-700/50 blur-[12px] sm:blur-[15px] transition-all duration-300 group-hover:opacity-40 group-hover:blur-[8px] sm:group-hover:blur-[10px] active:opacity-40"></div>
+            <div className="absolute inset-0 rounded-full bg-linear-to-r from-gray-700/90 via-gray-600/60 to-gray-700/50 blur-md sm:blur-[15px] transition-all duration-300 group-hover:opacity-40 group-hover:blur-sm sm:group-hover:blur-[10px] active:opacity-40"></div>
 
             {/* Arrow icon with float animation - Responsive size */}
             <div className="relative z-10 animate-float-glow">
@@ -135,34 +137,44 @@ export default function App() {
             <div className="absolute inset-0 rounded-full border border-gray-900/40 transition-all duration-300 group-hover:border-slate-950/50 active:border-slate-950/50"></div>
 
             {/* Top highlight - Responsive size */}
-            <div className="absolute top-0 left-1/2 h-2 w-5 sm:w-6 -translate-x-1/2 rounded-full bg-gradient-to-r from-white/30 via-white/40 to-slate-950/50 blur-[1px] sm:blur-sm transition-all duration-300 group-hover:opacity-30 active:opacity-30"></div>
+            <div className="absolute top-0 left-1/2 h-2 w-5 sm:w-6 -translate-x-1/2 rounded-full bg-linear-to-r from-white/30 via-white/40 to-slate-950/50 blur-[1px] sm:blur-sm transition-all duration-300 group-hover:opacity-30 active:opacity-30"></div>
           </div>
 
           {/* Outer hover glow - Responsive inset */}
           <div className="absolute -inset-2 sm:-inset-3 overflow-hidden rounded-full">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-300/30 via-gray-900/40 to-gray-300/30 opacity-0 blur-lg sm:blur-xl transition-all duration-700 group-hover:opacity-100 group-hover:blur-xl sm:group-hover:blur-2xl active:opacity-100"></div>
+            <div className="absolute inset-0 rounded-full bg-linear-to-r from-gray-300/30 via-gray-900/40 to-gray-300/30 opacity-0 blur-lg sm:blur-xl transition-all duration-700 group-hover:opacity-100 group-hover:blur-xl sm:group-hover:blur-2xl active:opacity-100"></div>
           </div>
 
           {/* Additional static outer glow - Responsive blur */}
-          <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-gray-400/10 via-gray-300/15 to-gray-400/10 opacity-60 blur-md sm:blur-lg"></div>
+          <div className="absolute -inset-1 rounded-full bg-linear-to-r from-gray-400/10 via-gray-300/15 to-gray-400/10 opacity-60 blur-md sm:blur-lg"></div>
         </button>
       )}
 
       {/* Background */}
       <div className="fixed inset-0 -z-10">
         <div className="relative h-full w-full bg-black">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-          <div className="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[14px_24px]"></div>
+          <div className="absolute left-0 right-0 top-[-10%] h-250 w-250 rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"></div>
         </div>
       </div>
 
       {/* Content - Responsive container */}
-      <div className=" mx-auto px-4 sm:px-6 md:px-8">
+      <div className="mx-auto px-4 sm:px-6 md:px-8">
         <Hero />
 
         <Suspense
           fallback={
-            <div className="mt-20 text-center text-white">Loading...</div>
+            <div className="mt-20 flex justify-center items-center min-h-screen">
+              <div className="flex space-x-3">
+                {[...Array(3)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-4 h-4 bg-blue-500 rounded-full animate-bounce"
+                    style={{ animationDelay: `${i * 0.1}s` }}
+                  />
+                ))}
+              </div>
+            </div>
           }
         >
           <Technologies />
