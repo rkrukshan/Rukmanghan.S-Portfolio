@@ -293,8 +293,14 @@ export default function Technologies() {
                   rotate: 360,
                   transition: { duration: 0.4 }
                 }}
+                // Enable tooltip for both mobile and desktop
                 data-tooltip-id="tech-tooltip"
                 data-tooltip-content={tooltip}
+                // Add touch event for mobile
+                onClick={(e) => {
+                  // Prevent default for mobile
+                  e.preventDefault();
+                }}
               >
                 {/* Glow effect on hover */}
                 <div className="absolute inset-0 rounded-lg sm:rounded-xl md:rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -331,20 +337,38 @@ export default function Technologies() {
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="inline-flex items-center gap-2"
-          >
+            className="inline-flex items-center gap-2">
+
           </motion.div>
         </div>
       </div>
 
-      {/* Tooltip for mobile */}
-      {/* <Tooltip
+      {/* Tooltip for ALL devices - Uncommented and configured */}
+      <Tooltip
         id="tech-tooltip"
-        className="z-50"
+        className="z-50 max-w-xs text-xs! sm:text-sm!"
         place="top"
-        delayShow={300}
+        delayShow={200}
         delayHide={200}
-      /> */}
+        // Mobile-specific settings
+        clickable={true}
+        events={['hover', 'click']}
+        // Prevent hiding on scroll for mobile
+        closeOnScroll={false}
+        // Better mobile positioning
+        positionStrategy="fixed"
+        // Style improvements for mobile
+        style={{
+          backgroundColor: 'rgba(17, 24, 39, 0.95)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: '0.75rem',
+          padding: '0.5rem 0.75rem',
+          fontSize: '0.75rem',
+          maxWidth: '200px',
+          zIndex: 9999,
+        }}
+      />
     </div>
   );
 }
