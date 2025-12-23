@@ -259,21 +259,21 @@ export default function Technologies() {
           whileInView={{ opacity: 1, y: 0 }}
           initial={{ opacity: 0, y: -100 }}
           transition={{ duration: 1.2 }}
-          className="text-3xl sm:text-4xl md:text-5xl text-white text-center py-12 sm:py-20 font-bold"
+          className="text-3xl sm:text-4xl md:text-5xl text-white text-center py-8 sm:py-12 md:py-20 font-bold px-4"
         >
           <span>
             Technologies
           </span>
         </motion.h2>
 
-        <div className="relative flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8 px-4">
+        <div className="relative flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 px-3 sm:px-4">
           <Suspense fallback={
-            <div className="flex items-center justify-center min-h-100 w-full py-20">
+            <div className="flex items-center justify-center min-h-100 w-full py-12 sm:py-20">
               <div className="flex space-x-3">
                 {[...Array(3)].map((_, i) => (
                   <div
                     key={i}
-                    className="w-4 h-4 bg-blue-500 rounded-full animate-bounce"
+                    className="w-3 h-3 sm:w-4 sm:h-4 bg-blue-500 rounded-full animate-bounce"
                     style={{ animationDelay: `${i * 0.1}s` }}
                   />
                 ))}
@@ -283,10 +283,10 @@ export default function Technologies() {
             {icons.map(([Icon, duration, color, tooltip], i) => (
               <motion.div
                 key={i}
-                className="group p-4 sm:p-5 md:p-6 cursor-pointer relative"
+                className="group p-3 sm:p-4 md:p-5 lg:p-6 cursor-pointer relative"
                 initial={{ opacity: 1, scale: 1 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 animate="animate"
                 variants={floatingVariants(duration)}
                 whileHover={{
@@ -297,24 +297,29 @@ export default function Technologies() {
                 data-tooltip-content={tooltip}
               >
                 {/* Glow effect on hover */}
-                <div className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 rounded-lg sm:rounded-xl md:rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {/* Icon container */}
-                <div className="relative p-4 sm:p-5 md:p-6 rounded-xl backdrop-blur-sm transition-all duration-300">
+                <div className="relative p-2 sm:p-3 md:p-4 lg:p-6 rounded-lg sm:rounded-xl transition-all duration-300">
                   <Icon
-                    className={`${color} h-28 w-2h-28 sm:h-20 sm:w-20 md:h-24 md:w-24 transition-all duration-300 transform group-hover:scale-110`}
+                    className={`${color} h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-32 lg:w-32 transition-all duration-300 transform group-hover:scale-110`}
                   />
                 </div>
 
-                {/* Animated tooltip label */}
-                <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                {/* Animated tooltip label - only show on larger screens */}
+                <div className="hidden sm:block absolute -bottom-2 sm:-bottom-3 left-1/2 transform -translate-x-1/2 translate-y-full opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
                   <motion.span
                     initial={{ y: 10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="bg-gray-900/90 backdrop-blur-sm text-white text-xs font-medium px-3 py-1.5 rounded-lg whitespace-nowrap border border-white/10"
+                    className="bg-gray-900/90 backdrop-blur-sm text-white text-xs sm:text-sm font-medium px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg whitespace-nowrap border border-white/10"
                   >
                     {tooltip}
                   </motion.span>
+                </div>
+
+                {/* Mobile touch indicator */}
+                <div className="sm:hidden absolute -bottom-1 left-1/2 transform -translate-x-1/2">
+                  <div className="w-1 h-1 bg-blue-400/50 rounded-full animate-pulse" />
                 </div>
               </motion.div>
             ))}
@@ -322,19 +327,24 @@ export default function Technologies() {
         </div>
 
         {/* Floating animation indicator */}
-        <div className="text-center mt-12 text-gray-400 text-sm">
+        <div className="text-center mt-8 sm:mt-12 text-gray-400 text-xs sm:text-sm px-4">
           <motion.div
-            animate={{ y: [0, -10, 0] }}
+            animate={{ y: [0, -8, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="inline-flex items-center gap-2"
           >
-
           </motion.div>
         </div>
       </div>
 
-      {/* Tooltip */}
-      {/* <Tooltip id="tech-tooltip" /> */}
+      {/* Tooltip for mobile */}
+      {/* <Tooltip
+        id="tech-tooltip"
+        className="z-50"
+        place="top"
+        delayShow={300}
+        delayHide={200}
+      /> */}
     </div>
   );
 }
