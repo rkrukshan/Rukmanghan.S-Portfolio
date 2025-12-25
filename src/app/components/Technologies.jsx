@@ -48,92 +48,6 @@ const floatingVariants = (duration) => ({
   },
 });
 
-// Three.js Sphere Component
-function TechSphere() {
-  const sphereRef = useRef();
-  const groupRef = useRef();
-
-  useFrame((state) => {
-    // Rotate the sphere slowly
-    if (sphereRef.current) {
-      sphereRef.current.rotation.y += 0.002;
-      sphereRef.current.rotation.x += 0.001;
-    }
-
-    // Rotate the icons around the sphere
-    if (groupRef.current) {
-      groupRef.current.rotation.y += 0.005;
-      groupRef.current.rotation.x += 0.002;
-    }
-  });
-
-  return (
-    <group>
-      {/* Main Sphere */}
-      <mesh ref={sphereRef} position={[0, 0, 0]}>
-        <sphereGeometry args={[1.5, 32, 32]} />
-        <meshStandardMaterial
-          color="#0f172a"
-          emissive="#1e40af"
-          emissiveIntensity={0.2}
-          transparent
-          opacity={0.2}
-          wireframe={true}
-        />
-      </mesh>
-
-      {/* Orbiting Rings */}
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[2.2, 2.5, 64]} />
-        <meshBasicMaterial color="#3b82f6" transparent opacity={0.1} />
-      </mesh>
-
-      {/* Particle System */}
-      <points>
-        <sphereGeometry args={[2.5, 32, 32]} />
-        <pointsMaterial
-          color="#60a5fa"
-          size={0.02}
-          sizeAttenuation={true}
-          transparent
-          opacity={0.3}
-        />
-      </points>
-    </group>
-  );
-}
-
-// Three.js Icon Component
-function FloatingIcon({ position, color, index }) {
-  const meshRef = useRef();
-
-  useFrame((state) => {
-    if (meshRef.current) {
-      // Float up and down
-      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime + index) * 0.2;
-
-      // Rotate slowly
-      meshRef.current.rotation.y += 0.01;
-      meshRef.current.rotation.x += 0.005;
-    }
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-      <mesh ref={meshRef} position={position}>
-        <boxGeometry args={[0.4, 0.4, 0.4]} />
-        <meshStandardMaterial
-          color={color}
-          emissive={color}
-          emissiveIntensity={0.3}
-          metalness={0.8}
-          roughness={0.2}
-        />
-      </mesh>
-    </Float>
-  );
-}
-
 export default function Technologies() {
   // Initialize show3D with proper SSR handling
   const [show3D, setShow3D] = useState(false);
@@ -214,45 +128,8 @@ export default function Technologies() {
     [FcLinux, 2.9, "", "WSL", "#f97316"]
   ];
 
-  // Generate positions for 3D icons on a sphere
-  const generateSpherePositions = (count, radius = 2.5) => {
-    const positions = [];
-    for (let i = 0; i < count; i++) {
-      const phi = Math.acos(-1 + (2 * i) / count);
-      const theta = Math.sqrt(count * Math.PI) * phi;
-      positions.push([
-        radius * Math.cos(theta) * Math.sin(phi),
-        radius * Math.sin(theta) * Math.sin(phi),
-        radius * Math.cos(phi)
-      ]);
-    }
-    return positions;
-  };
-
-  const positions = generateSpherePositions(icons.length);
-
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Three.js Background */}
-      {show3D && (
-        <div className="h-screen absolute inset-0 z-0">
-          <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-            <ambientLight intensity={0.5} />
-            <pointLight position={[10, 10, 10]} intensity={1} color="#60a5fa" />
-            <pointLight position={[-10, -10, -10]} intensity={0.5} color="#8b5cf6" />
-            <TechSphere />
-
-            <OrbitControls
-              enableZoom={false}
-              enablePan={false}
-              autoRotate
-              autoRotateSpeed={0.5}
-            />
-            <Stars radius={100} depth={50} count={5000} factor={4} fade />
-          </Canvas>
-        </div>
-      )}
-
       {/* Content Overlay */}
       <div className="relative z-10">
         <motion.h2
