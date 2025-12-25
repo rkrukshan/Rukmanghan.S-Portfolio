@@ -133,15 +133,13 @@ export default function Technologies() {
       {/* Content Overlay */}
       <div className="relative z-10">
         <motion.h2
-          whileInView={{ opacity: 1, y: 0 }}
-          initial={{ opacity: 0, y: -100 }}
-          transition={{ duration: 1.2 }}
-          className="text-3xl sm:text-4xl md:text-5xl text-white text-center py-8 sm:py-12 md:py-20 font-bold px-4"
-        >
-          <span>
-            Technologies
-          </span>
-        </motion.h2>
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: -100 }}
+                transition={{ duration: 1.2 }}
+                className="text-3xl sm:text-4xl text-white text-center my-12 sm:my-30"
+              >
+                Technologies
+              </motion.h2>
 
         <div className="relative flex flex-wrap items-center justify-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 px-3 sm:px-4">
           <Suspense fallback={
