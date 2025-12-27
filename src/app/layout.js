@@ -19,7 +19,7 @@ export const metadata = {
     title: "Rukmanghan.S",
     description:
       "Professional software engineer portfolio featuring full-stack web development with React, Node.js, Java Spring Boot, and cloud-native solutions.",
-    images: ["/assets/images/logo.png"],
+    images: ["/assets/images/thumbnail.png"],
   },
 
   twitter: {
@@ -27,7 +27,7 @@ export const metadata = {
     title: "Rukmanghan.S",
     description:
       "Professional software engineer portfolio featuring full-stack web development with React, Node.js, Java Spring Boot, and cloud-native solutions.",
-    images: ["/assets/images/logo.png"],
+    images: ["/assets/images/thumbnail.png"],
   },
 };
 
