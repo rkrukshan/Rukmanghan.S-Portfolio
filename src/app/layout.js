@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import "./globals.css";
 
 export const metadata = {
-  metadataBase: new URL("https://your-domain.vercel.app"),
+  metadataBase: new URL("https://rukmanghan.vercel.app/"),
 
   title: {
     default: "Rukmanghan.S",
