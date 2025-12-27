@@ -1,5 +1,14 @@
 "use client";
-import React, { Suspense, useEffect, useState, lazy } from "react";
+
+import React, {
+  Suspense,
+  useEffect,
+  useState,
+  lazy,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import Hero from "./components/Hero";
 
 const Technologies = lazy(() => import("./components/Technologies"));
@@ -8,8 +17,86 @@ const Experience = lazy(() => import("./components/Experience"));
 const Form = lazy(() => import("./components/Form"));
 const Contact = lazy(() => import("./components/Contact"));
 
+// Navigation component
+const NavigationDots = ({ sections, activeSection, scrollToSection }) => {
+  return (
+    <nav className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-6">
+      {sections.map((section) => (
+        <button
+          key={section.id}
+          onClick={() => scrollToSection(section.id)}
+          className="group relative flex items-center justify-center"
+          aria-label={`Scroll to ${section.label}`}
+        >
+          {/* Outer ring - visible for all dots */}
+          <div className="absolute inset-0 rounded-full border border-gray-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+          {/* Dot indicator */}
+          <div
+            className={`relative w-3 h-3 rounded-full transition-all duration-300 ${
+              activeSection === section.id
+                ? "scale-125 bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]"
+                : "bg-gray-500 group-hover:bg-gray-400"
+            }`}
+          >
+            {/* Active pulse effect */}
+            {activeSection === section.id && (
+              <>
+                <div className="absolute inset-0 rounded-full bg-white animate-ping opacity-30"></div>
+                <div className="absolute -inset-1 rounded-full bg-white/10 animate-pulse"></div>
+              </>
+            )}
+          </div>
+
+          {/* Section label - appears on hover */}
+          <div className="absolute right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+            <div className="relative bg-gray-900/90 backdrop-blur-sm text-white text-xs font-medium py-1.5 px-3 rounded-md whitespace-nowrap shadow-lg">
+              {section.label}
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 w-2 h-2 bg-gray-900/90 rotate-45"></div>
+            </div>
+          </div>
+
+          {/* Connecting line between dots (except last one) */}
+          {section.id !== sections[sections.length - 1].id && (
+            <div
+              className={`absolute top-full w-0.5 h-6 mt-1 transition-all duration-300 ${
+                activeSection === section.id
+                  ? "bg-linear-to-b from-white to-transparent"
+                  : "bg-linear-to-b from-gray-500/50 to-transparent"
+              }`}
+            ></div>
+          )}
+        </button>
+      ))}
+    </nav>
+  );
+};
+
 export default function App() {
   const [isVisible, setIsVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  // Refs for each section
+  const heroRef = useRef(null);
+  const technologiesRef = useRef(null);
+  const projectsRef = useRef(null);
+  const experienceRef = useRef(null);
+  const formRef = useRef(null);
+  const contactRef = useRef(null);
+
+  // Memoize sections array to prevent unnecessary re-renders
+  const sections = useMemo(
+    () => [
+      { id: "hero", label: "Hero", ref: heroRef },
+      { id: "technologies", label: "Technologies", ref: technologiesRef },
+      { id: "projects", label: "Projects", ref: projectsRef },
+      { id: "experience", label: "Experience", ref: experienceRef },
+      { id: "form", label: "Contact Me", ref: formRef },
+      { id: "contact", label: "Get in Touch", ref: contactRef },
+    ],
+    []
+  ); // Empty dependency array since refs are stable
 
   const toggleVisibility = () => {
     setIsVisible(window.pageYOffset > 300);
@@ -20,7 +107,171 @@ export default function App() {
       top: 0,
       behavior: "smooth",
     });
+    setActiveSection("hero");
   };
+
+  const scrollToSection = useCallback(
+    (sectionId) => {
+      setIsScrolling(true);
+      const section = sections.find((s) => s.id === sectionId);
+      if (section?.ref?.current) {
+        section.ref.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        setActiveSection(sectionId);
+
+        // Reset scrolling flag after animation completes
+        setTimeout(() => setIsScrolling(false), 1000);
+      }
+    },
+    [sections]
+  );
+
+  // Improved function to find which section is currently in view
+  const findActiveSection = useCallback(() => {
+    if (isScrolling) return; // Don't update while programmatically scrolling
+
+    const scrollPosition = window.scrollY + window.innerHeight / 3; // Offset for better UX
+
+    // Get positions of all sections
+    const sectionPositions = sections.map((section) => {
+      if (!section.ref.current)
+        return { id: section.id, top: Infinity, bottom: -Infinity };
+
+      const rect = section.ref.current.getBoundingClientRect();
+      const top = rect.top + window.scrollY;
+      const height = rect.height;
+
+      return {
+        id: section.id,
+        top,
+        bottom: top + height,
+        height,
+      };
+    });
+
+    // Special case for the last section - if we're near the bottom of the page
+    const lastSection = sectionPositions[sectionPositions.length - 1];
+    const isAtBottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 100;
+
+    if (isAtBottom && lastSection) {
+      if (activeSection !== lastSection.id) {
+        setActiveSection(lastSection.id);
+      }
+      return;
+    }
+
+    // Find the section that's currently in view
+    let newActiveSection = "hero";
+
+    for (let i = 0; i < sectionPositions.length; i++) {
+      const section = sectionPositions[i];
+
+      // Check if scroll position is within this section
+      if (
+        scrollPosition >= section.top - 100 &&
+        scrollPosition < section.bottom - 100
+      ) {
+        newActiveSection = section.id;
+        break;
+      }
+
+      // If we're between sections, pick the closest one
+      if (i < sectionPositions.length - 1) {
+        const nextSection = sectionPositions[i + 1];
+        const midpoint = (section.bottom + nextSection.top) / 2;
+
+        if (
+          scrollPosition >= section.bottom - 100 &&
+          scrollPosition < midpoint
+        ) {
+          newActiveSection = section.id;
+          break;
+        } else if (
+          scrollPosition >= midpoint &&
+          scrollPosition < nextSection.top + 100
+        ) {
+          newActiveSection = nextSection.id;
+          break;
+        }
+      }
+    }
+
+    // Update only if changed
+    if (activeSection !== newActiveSection) {
+      setActiveSection(newActiveSection);
+    }
+  }, [sections, isScrolling, activeSection]);
+
+  // Throttle scroll handler for performance
+  useEffect(() => {
+    let scrollTimeout;
+    let ticking = false;
+
+    const handleScroll = () => {
+      toggleVisibility();
+
+      // Use requestAnimationFrame for smoother performance
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          findActiveSection();
+          ticking = false;
+        });
+        ticking = true;
+      }
+
+      // Also use timeout as backup
+      if (!scrollTimeout) {
+        scrollTimeout = setTimeout(() => {
+          findActiveSection();
+          scrollTimeout = null;
+        }, 150);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Initial check
+    setTimeout(findActiveSection, 500);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+    };
+  }, [findActiveSection]);
+
+  // Setup Intersection Observer as a backup
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: "-20% 0px -20% 0px",
+      threshold: 0.1,
+    };
+
+    const observers = [];
+
+    sections.forEach((section) => {
+      if (section.ref.current) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !isScrolling) {
+              setActiveSection(section.id);
+            }
+          });
+        }, options);
+
+        observer.observe(section.ref.current);
+        observers.push(observer);
+      }
+    });
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, [sections, isScrolling]);
 
   useEffect(() => {
     // Safe preload for lazy components
@@ -31,9 +282,6 @@ export default function App() {
       import("./components/Form"),
       import("./components/Contact"),
     ]);
-
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   return (
@@ -81,6 +329,13 @@ export default function App() {
           }
         `}
       </style>
+
+      {/* Right Navigation Dots - Now shows on md screens and up */}
+      <NavigationDots
+        sections={sections}
+        activeSection={activeSection}
+        scrollToSection={scrollToSection}
+      />
 
       {/* Scroll to Top Button - Responsive */}
       {isVisible && (
@@ -160,7 +415,10 @@ export default function App() {
 
       {/* Content - Responsive container */}
       <div className="mx-auto px-4 sm:px-6 md:px-8">
-        <Hero />
+        {/* Hero Section */}
+        <div ref={heroRef} id="hero">
+          <Hero />
+        </div>
 
         <Suspense
           fallback={
@@ -177,11 +435,30 @@ export default function App() {
             </div>
           }
         >
-          <Technologies />
-          <Projects />
-          <Experience />
-          <Form />
-          <Contact />
+          {/* Technologies Section */}
+          <div ref={technologiesRef} id="technologies">
+            <Technologies />
+          </div>
+
+          {/* Projects Section */}
+          <div ref={projectsRef} id="projects">
+            <Projects />
+          </div>
+
+          {/* Experience Section */}
+          <div ref={experienceRef} id="experience">
+            <Experience />
+          </div>
+
+          {/* Form Section */}
+          <div ref={formRef} id="form">
+            <Form />
+          </div>
+
+          {/* Contact Section */}
+          <div ref={contactRef} id="contact">
+            <Contact />
+          </div>
         </Suspense>
       </div>
     </div>
