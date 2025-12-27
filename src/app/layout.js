@@ -23,7 +23,7 @@ export const metadata = {
     images: [
       {
         // ❗ ABSOLUTE URL (guaranteed crawler-safe)
-        url: "https://Rukmanghan.vercel.app/assets/images/thumbnail.png",
+        url: "https://rukmanghan.vercel.app/assets/images/thumbnail.png",
         width: 1200,
         height: 630,
         alt: "Rukmanghan.S Portfolio Thumbnail",
@@ -37,7 +37,7 @@ export const metadata = {
     description:
       "Professional software engineer portfolio featuring full-stack web development with React, Node.js, Java Spring Boot, and cloud-native solutions.",
     images: [
-      "https://Rukmanghan.vercel.app/assets/images/thumbnail.png",
+      "https://rukmanghan.vercel.app/assets/images/thumbnail.png",
     ],
   },
 };
