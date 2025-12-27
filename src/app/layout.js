@@ -3,7 +3,8 @@ import Navbar from "./components/Navbar";
 import "./globals.css";
 
 export const metadata = {
-  metadataBase: new URL("https://rukmanghan.vercel.app/"),
+  // ❗ NO trailing slash
+  metadataBase: new URL("https://rukmanghan.vercel.app"),
 
   title: {
     default: "Rukmanghan.S",
@@ -19,7 +20,15 @@ export const metadata = {
     title: "Rukmanghan.S",
     description:
       "Professional software engineer portfolio featuring full-stack web development with React, Node.js, Java Spring Boot, and cloud-native solutions.",
-    images: ["/assets/images/thumbnail.png"],
+    images: [
+      {
+        // ❗ ABSOLUTE URL (guaranteed crawler-safe)
+        url: "https://Rukmanghan.vercel.app/assets/images/thumbnail.png",
+        width: 1200,
+        height: 630,
+        alt: "Rukmanghan.S Portfolio Thumbnail",
+      },
+    ],
   },
 
   twitter: {
@@ -27,7 +36,9 @@ export const metadata = {
     title: "Rukmanghan.S",
     description:
       "Professional software engineer portfolio featuring full-stack web development with React, Node.js, Java Spring Boot, and cloud-native solutions.",
-    images: ["/assets/images/thumbnail.png"],
+    images: [
+      "https://Rukmanghan.vercel.app/assets/images/thumbnail.png",
+    ],
   },
 };
 
